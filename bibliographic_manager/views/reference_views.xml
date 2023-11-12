@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bibliographic_reference_view_tree" model="ir.ui.view">
+        <field name="name">bibliographic.manager.reference.tree</field>
+        <field name="model">bibliographic.manager.reference</field>
+        <field name="arch" type="xml">
+            <tree string="bibliographic_reference_tree">
+                <field name="author_ids" widget="many2many_tags"/>
+                <field name="publish_date" widget="date"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="bibliographic_reference_view_form" model="ir.ui.view">
+        <field name="name">bibliographic.manager.reference.form</field>
+        <field name="model">bibliographic.manager.reference</field>
+        <field name="arch" type="xml">
+            <form string="Bibliographic Reference Form">
+                <header>
+                    <field name="type" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Title"/>
+                        <h1>
+                            <field name="name" placeholder="Set the title of the reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <separator string="General Information"/>
+                            <field name="type"/>
+                            <field name="format"/>
+                            <field name="author_ids" widget="many2many_tags"/>
+                            <field name="publish_date"/>
+                        </group>
+                        <group invisible="type != 'website'">
+                            <separator string="Website Information"/>
+                            <field name="page_name"/>
+                            <field name="url" widget="url"/>
+                            <field name="source_access_date"/>
+                        </group>
+                        <group invisible="type != 'book'">
+                            <separator string="Book Information"/>
+                            <field name="location"/>
+                            <field name="publishing_house"/>
+                            <field name="book_volume"/>
+                            <field name="book_edition"/>
+                            <field name="book_page"/>
+                            <field name="url"/>
+                            <field name="book_file" widget="binary"/>
+                        </group>
+                        <group invisible="type != 'more'">
+                            <separator string="Others"/>
+                            <field name="is_online_source"/>
+                            <field name="type_of_publication"/>
+                            <field name="publishing_house"/>
+                            <field name="other_location"/>
+                            <field name="url" invisible="is_online_source == False"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="bibliographic_reference_view_search" model="ir.ui.view">
+       <field name="name">bibliographic.manager.reference.search</field>
+       <field name="model">bibliographic.manager.reference</field>
+        <field name="arch" type="xml">
+            <search string="Search Reference">
+                <field name="name" string="Reference Title"/>
+                <field name="author_ids" string="Author"/>
+                <field name="publish_date" string="Date" />
+                <group expand="0" string="Group By">
+                    <filter string="Author" name="group_by_author" domain="[]" context="{'group_by': 'author_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="bibliographic_reference_action" model="ir.actions.act_window">
+        <field name="name">Bibliographic References</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bibliographic.manager.reference</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bibliographic_study_group_view_kanban" model="ir.ui.view">
+        <field name="name">bibliographic.manager.study.group.kanban</field>
+        <field name="model">bibliographic.manager.study.group</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="create_date"/>
+                <field name="member_ids"/>
+                <templates>
+                    <div t-name="kanban-box" t-attf-class="oe_kanban_global_click">
+                        <div class="o_kanban_title clearfix">
+                            <span><i class="text-primary fa fa-solid fa-users fa-5x"></i></span>
+                            <h2><field name="name"/></h2>
+                        </div>
+                        <div class="o_kanban_record_bottom">
+                            <div class="oe_kanban_bottom_left">
+                                <em><field name="create_date"/></em>
+                            </div>
+                            <div class="oe_kanban_bottom_right">
+                                <field name="member_ids" widget="many2many_avatar_user"/>
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="bibliographic_study_group_view_form" model="ir.ui.view">
+        <field name="name">bibliographic.manager.study.group.form</field>
+        <field name="model">bibliographic.manager.study.group</field>
+        <field name="arch" type="xml">
+            <form string="Study Group">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Title"/>
+                        <h1>
+                            <field name="name" placeholder="Set the title of the group"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="user_id" widget="many2one_avatar_user"/>
+                    </group>
+                    <notebook>
+                        <page string="Folders">
+                            <field name="folder_ids" mode="kanban">
+                                <kanban delete="true">
+                                    <field name="name"/>
+                                    <templates>
+                                        <div t-name="kanban-box" t-attf-class="oe_kanban_global_click">
+                                            <div class="o_kanban_title clearfix">
+                                                <i class="text-primary fa fa-solid fa-folder fa-5x"></i>
+                                                <h2><field name="name"/></h2>
+                                            </div>
+                                            <div class="o_kanban_record_bottom">
+                                                <div class="oe_kanban_bottom_left">
+                                                    <em><field name="create_date"/></em>
+                                                </div>
+                                                <div class="oe_kanban_bottom_right">
+                                                    <field name="user_id" widget="many2one_avatar_user"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                        <page string="Members">
+                            <field name="member_ids" mode="kanban">
+                                <kanban delete="true">
+                                    <field name="id"/>
+                                    <field name="name"/>
+                                    <field name="title"/>
+                                    <field name="email"/>
+                                    <field name="image_128"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div class="oe_kanban_global_click">
+                                                <div class="o_kanban_image">
+                                                    <img alt="Contact image" t-att-src="kanban_image('res.users', 'avatar_128', record.id.raw_value)"/>
+                                                </div>
+                                                <div class="oe_kanban_details">
+                                                    <field name="name"/>
+                                                    <div t-if="record.email.raw_value"><field name="email" widget="email"/></div>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="bibliographic_study_group_action" model="ir.actions.act_window">
+        <field name="name">Study Groups</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bibliographic.manager.study.group</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+</odoo>

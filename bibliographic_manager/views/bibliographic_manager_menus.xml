@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+            id="bibliographic_manager_root"
+            name="Bibliographic Manager"
+            web_icon="bibliographic_manager,static/description/icon.png"
+    >
+        <menuitem
+            id="bibliographic_folder_menu_action"
+            action="bibliographic_folder_action"
+            sequence="1"
+        />
+        <menuitem
+            id="bibliographic_group_menu_action"
+            action="bibliographic_study_group_action"
+            sequence="2"
+        />
+        <menuitem
+            id="bibliographic_reference_menu_action"
+            action="bibliographic_reference_action"
+            sequence="3"
+        />
+    </menuitem>
+</odoo>

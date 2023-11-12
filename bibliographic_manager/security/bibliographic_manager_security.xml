@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- CATEGORY -->
+    <record model="ir.module.category" id="bibliographic_manager_module_management">
+        <field name="name">Bibliographic Manager</field>
+        <field name="description">User access levels for Bibliographic Manager module</field>
+        <field name="sequence">10</field>
+    </record>
+    <!-- GROUPS -->
+    <record id="bibliographic_manager_user_access" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="bibliographic_manager_module_management"/>
+    </record>
+    <!-- RULES -->
+    <record id="bibliographic_manager_reference_user_owner_rule" model="ir.rule">
+        <field name="name">Reference: Users Owner Rule</field>
+        <field ref="model_bibliographic_manager_reference" name="model_id"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('bibliographic_manager.bibliographic_manager_user_access'))]"/>
+    </record>
+    <record id="bibliographic_manager_reference_user_member_rule" model="ir.rule">
+        <field name="name">Reference: Users Member Rule</field>
+        <field ref="model_bibliographic_manager_reference" name="model_id"/>
+        <field name="domain_force">[('folder_ids', 'any', [('study_group_ids', 'any', [('member_ids', 'in', user.id)])])]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(4, ref('bibliographic_manager.bibliographic_manager_user_access'))]"/>
+    </record>
+    <record id="bibliographic_manager_study_group_user_owner_rule" model="ir.rule">
+        <field name="name">Study Group: Users Owner Rule</field>
+        <field ref="model_bibliographic_manager_study_group" name="model_id"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('bibliographic_manager.bibliographic_manager_user_access'))]"/>
+    </record>
+    <record id="bibliographic_manager_study_group_user_member_rule" model="ir.rule">
+        <field name="name">Study Group: User Members Rule</field>
+        <field ref="model_bibliographic_manager_study_group" name="model_id"/>
+        <field name="domain_force">[('member_ids', 'in', user.id)]</field>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(4, ref('bibliographic_manager.bibliographic_manager_user_access'))]"/>
+    </record>
+    <record id="bibliographic_manager_folder_user_owner_rule" model="ir.rule">
+        <field name="name">Folder: Users Owner Rule</field>
+        <field ref="model_bibliographic_manager_folder" name="model_id"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+        <field name="groups" eval="[(4, ref('bibliographic_manager.bibliographic_manager_user_access'))]"/>
+    </record>
+    <record id="bibliographic_manager_folder_user_member_rule" model="ir.rule">
+        <field name="name">Folder: Users Member Rule</field>
+        <field ref="model_bibliographic_manager_folder" name="model_id"/>
+        <field name="domain_force">[('study_group_ids', 'any', [('member_ids', 'in', user.id)])]</field>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="groups" eval="[(4, ref('bibliographic_manager.bibliographic_manager_user_access'))]"/>
+    </record>
+</odoo>

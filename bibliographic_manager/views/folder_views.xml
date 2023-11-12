@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="bibliographic_folder_view_kanban" model="ir.ui.view">
+        <field name="name">bibliographic.manager.folder.kanban</field>
+        <field name="model">bibliographic.manager.folder</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <templates>
+                    <div t-name="kanban-box" t-attf-class="oe_kanban_global_click">
+                        <div class="o_kanban_title clearfix">
+                            <i class="text-primary fa fa-solid fa-folder fa-5x"></i>
+                            <h2><field name="name"/></h2>
+                        </div>
+                        <div class="o_kanban_record_bottom">
+                            <div class="oe_kanban_bottom_left">
+                                <em><field name="create_date"/></em>
+                            </div>
+                            <div class="oe_kanban_bottom_right">
+                                <field name="user_id" widget="many2one_avatar_user"/>
+                            </div>
+                        </div>
+                    </div>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="bibliographic_folder_view_form" model="ir.ui.view">
+        <field name="name">bibliographic.manager.folder.form</field>
+        <field name="model">bibliographic.manager.folder</field>
+        <field name="arch" type="xml">
+            <form string="bibliographic_folder_form">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Title"/>
+                        <h1>
+                            <field name="name" placeholder="Set the title of the folder"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="Related References">
+                            <field name="references_ids">
+                                <tree>
+                                    <field name="author_ids" widget="many2many_tags"/>
+                                    <field name="publish_date" widget="date"/>
+                                    <field name="name"/>
+                                    <button name="action_show_reference" type="object" string="See Reference" icon="fa-solid fa-book" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="bibliographic_folder_action" model="ir.actions.act_window">
+        <field name="name">Folders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">bibliographic.manager.folder</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+</odoo>
